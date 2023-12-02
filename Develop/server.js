@@ -22,28 +22,28 @@ app.get('*', (req, res) => {
 });
 
 app.get('/api/notes', (req, res) => {
-  const notes = JSON.parse(fs.readFileSync('./develop/db/db.json', 'utf8')) || [];
+  const notes = JSON.parse(fs.readFileSync('./db/db.json', 'utf8')) || [];
   res.json(notes);
 });
 
 app.post('/api/notes', (req, res) => {
   const newNote = req.body;
-  newNote.id = uuidv4(); // Generate a unique ID using uuid
+  newNote.id = uuidv4(); 
   
-  const notes = JSON.parse(fs.readFileSync('./develop/db/db.json', 'utf8')) || [];
+  const notes = JSON.parse(fs.readFileSync('./db/db.json', 'utf8')) || [];
   notes.push(newNote);
   
-  fs.writeFileSync('./develop/db/db.json', JSON.stringify(notes));
+  fs.writeFileSync('./db/db.json', JSON.stringify(notes));
   res.json(newNote);
 });
 
 app.delete('/api/notes/:id', (req, res) => {
   const noteId = req.params.id;
 
-  let notes = JSON.parse(fs.readFileSync('./develop/db/db.json', 'utf8')) || [];
+  let notes = JSON.parse(fs.readFileSync('./db/db.json', 'utf8')) || [];
   notes = notes.filter(note => note.id !== noteId);
 
-  fs.writeFileSync('./develop/db/db.json', JSON.stringify(notes));
+  fs.writeFileSync('./db/db.json', JSON.stringify(notes));
   res.json({ success: true });
 });
 
